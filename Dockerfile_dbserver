@@ -1,0 +1,5 @@
+FROM postgres:18.2
+WORKDIR /dbserver/
+COPY ./dbserver/videos.json .
+RUN cat ./videos.json | tr -d '\n' > ./videos1.json
+RUN cat ./videos1.json | tr -d ' ' >> ./videos2.json

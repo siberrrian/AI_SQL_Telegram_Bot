@@ -1,0 +1,8 @@
+FROM python:3.14.3
+WORKDIR /tgbot/
+COPY ./tgbot/requirements.txt .
+RUN pip install --no-cache-dir -r ./requirements.txt
+COPY ./.env .
+COPY ./tgbot/main.py .
+COPY ./tgbot/handlers/ai_handlers.py ./handlers/
+COPY ./tgbot/handlers/basic_handlers.py ./handlers/

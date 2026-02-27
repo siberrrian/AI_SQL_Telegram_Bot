@@ -1,0 +1,37 @@
+services:
+  postgres:
+    build:
+      dockerfile: Dockerfile_dbserver
+    container_name: ${DB_HOST}
+    environment:
+      POSTGRES_DB: "${DB_NAME}"
+      POSTGRES_USER: "${DB_USER}"
+      POSTGRES_PASSWORD: "${DB_PASSWORD}"
+    volumes:
+      - ./dbserver/initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - "${DB_HOST_PORT}:${DB_CONTAINER_PORT}"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - network1
+
+  tgbot:
+    build:
+      dockerfile: Dockerfile_tgbot
+    container_name: tgbot
+    command: python ./main.py
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - network1
+
+networks:
+  network1:
+    driver: bridge

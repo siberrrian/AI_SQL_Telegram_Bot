@@ -1,0 +1,6 @@
+aiogram
+psycopg2
+pandas
+sqlalchemy
+gigachat
+dotenv
