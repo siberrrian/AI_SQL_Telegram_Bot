@@ -27,7 +27,7 @@ async def ask_ai(prompt):
     giga = GigaChat(
         credentials=os.getenv("gigachat_token"),
         verify_ssl_certs=False,
-        model="GigaChat-2",
+        model="GigaChat-2-Max",
         scope="GIGACHAT_API_PERS"
     )
 
